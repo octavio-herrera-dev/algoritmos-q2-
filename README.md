@@ -1,7 +1,7 @@
 # Evaluación Semana 3 - Algoritmos
 
 ## Descripción del sistema
-El sistema supervisa el rendimiento de una API mediante el registro, ordenamiento y análisis de los tiempos de respuesta de las solicitudes realizadas por los usuarios. Está compuesto por seis módulos coordinados por un algoritmo principal. El procedimiento **leerTiempos** captura los tiempos de respuesta y valida que cada valor sea mayor que cero antes de almacenarlo en un arreglo. El procedimiento **bubbleSort** ordena los tiempos de menor a mayor utilizando el algoritmo de burbuja con una bandera de optimización. La función **calcularPromedio** obtiene el tiempo promedio de respuesta, mientras que la función **contarLentas** determina cuántas respuestas superan los 200 milisegundos. La función **buscarBinaria** localiza un tiempo específico dentro del arreglo ordenado y devuelve su posición o **-1** si no existe. Finalmente, el procedimiento **mostrarResultados** presenta el arreglo ordenado, el promedio, la cantidad de respuestas lentas y el resultado de la búsqueda. **Entrada:** el número de tiempos de respuesta y sus valores. **Salida:** el arreglo ordenado, el promedio, la cantidad de respuestas lentas y el resultado de la búsqueda.
+El sistema supervisa el rendimiento de una API mediante el registro, ordenamiento y análisis de los tiempos de respuesta de las solicitudes realizadas por los usuarios. Está compuesto por seis módulos coordinados por un algoritmo principal. El procedimiento **leerTiempos** captura los tiempos de respuesta y valida que cada valor sea mayor que cero antes de almacenarlo en un arreglo. El procedimiento **bubbleSort** ordena los tiempos de menor a mayor utilizando el algoritmo de burbuja con una bandera de optimización. La función **calcularPromedio** obtiene el tiempo promedio de respuesta, mientras que la función **contarLentas** determina cuántas respuestas superan los 200 milisegundos. La función **buscarBinaria** localiza un tiempo específico dentro del arreglo ordenado y devuelve su posición o **-1** si no existe. Finalmente, el algoritmo principal informa si el tiempo buscado fue encontrado y el procedimiento **mostrarResultados** presenta el arreglo ordenado, el promedio y la cantidad de respuestas lentas.
 
 ---
 
@@ -82,7 +82,7 @@ INICIO
     izq ← 1
     der ← n
     MIENTRAS izq <= der HACER
-        medio ← (izq + der) / 2
+        medio ← (izq + der) / 2                        // división entera
         SI tiempos[medio] = buscado ENTONCES
             RETORNAR medio
         SINO SI tiempos[medio] < buscado ENTONCES
@@ -94,22 +94,19 @@ INICIO
     RETORNAR -1
 FIN_FUNCIÓN
 
-PROCEDIMIENTO mostrarResultados(tiempos: ARREGLO, n: ENTERO, prom: REAL, lentas: ENTERO, pos: ENTERO, buscado: REAL)
+PROCEDIMIENTO mostrarResultados(tiempos: ARREGLO, n: ENTERO, prom: REAL, lentas: ENTERO)
 VARIABLES
     i : ENTERO
 INICIO
     ESCRIBIR "=== Reporte de tiempos de respuesta ==="
     ESCRIBIR "Tiempos ordenados: "
+
     PARA i DE 1 HASTA n CON PASO 1 HACER
         ESCRIBIR tiempos[i]
     FIN_PARA
+
     ESCRIBIR "Tiempo promedio: ", prom, " ms"
     ESCRIBIR "Respuestas lentas (>200 ms): ", lentas
-    SI pos > -1 ENTONCES
-        ESCRIBIR "Tiempo ", buscado, " encontrado en posición ", pos
-    SINO
-        ESCRIBIR "Tiempo ", buscado, " no registrado en el sistema."
-    FIN_SI
 FIN_PROCEDIMIENTO
 
 ALGORITMO SistemaTiemposRespuestaAPI
@@ -137,8 +134,14 @@ INICIO
     ESCRIBIR "¿Qué tiempo desea buscar (ms)? "
     LEER buscado
     pos ← buscarBinaria(tiempos, N, buscado)
+	
+	SI pos = -1 ENTONCES
+		ESCRIBIR "Tiempo ", buscado, " no registrado en el sistema."
+	SINO
+		ESCRIBIR "Tiempo ", buscado, " encontrado en posición ", pos
+	FIN_SI
 
-    mostrarResultados(tiempos, N, prom, lentas, pos, buscado)
+    mostrarResultados(tiempos, N, prom, lentas)
 FIN
 ```
 
